@@ -1,13 +1,15 @@
 using Bunit;
+using NUnit;
 using FluentAssertions;
 using MudBlazor;
 using MudBlazor.Services;
 
+
 namespace UnitTest
 {
-    public class ComponentTest:TestContext
+    public class ComponentTest : Bunit.TestContext
     {
-        [Fact]
+        [Test]
         public void Test1()
         {
             JSInterop.SetupVoid("mudKeyInterceptor.updatekey", _ => true);
@@ -15,11 +17,11 @@ namespace UnitTest
             JSInterop.SetupVoid("modPopover.initialize", _ => true);
             JSInterop.SetupVoid("mudKeyInterceptor.connect", _ => true);
             JSInterop.SetupVoid("mudPopover.initialize", "mudblazor-main-content", 0);
-            
+            JSInterop.Mode = JSRuntimeMode.Loose;
             Services.AddMudServices();
 
 
-            var component =RenderComponent<MudUnitTest.Client.Pages.Component>();
+            var component = RenderComponent<MudUnitTest.Client.Pages.Component>();
             var popoverProvier = RenderComponent<MudPopoverProvider>();
 
             component.RenderCount.Should().Be(1);
